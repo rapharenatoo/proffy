@@ -7,6 +7,8 @@ import './styles.css'
 //Definir as Propriedades
 interface PageHeaderProps {
   title: string;
+  // '?' deixa a description não obrigatorio
+  description?: string;
 }
 
 /**
@@ -27,6 +29,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
       </div>
       <div className="header-content">
         <strong>{props.title}</strong>
+        {/* só vai executar se estiver Description */}
+        {props.description && <p>{props.description}</p>}
         {props.children}
       </div>
     </header>
