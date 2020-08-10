@@ -5,6 +5,7 @@ import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
 import warningIcon from '../../assets/img/icons/warning.svg';
 import './styles.css'
+import api from '../../services/api';
 
 
 
@@ -44,14 +45,18 @@ function TeacherForm() {
   function handleCreateClass(e: FormEvent) {
     e.preventDefault();
 
-    console.log({
+    api.post('classes', {
       name,
       avatar,
       whatsapp,
       bio,
       subject,
-      cost,
-      scheduleItems
+      cost: Number(cost),
+      schedule: scheduleItems
+    }).then(() => {
+      alert('Cadastro realizado com sucesso!')
+    }).catch(() => {
+      alert('Erro no cadastro!')
     });
   }
 
