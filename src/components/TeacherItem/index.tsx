@@ -1,38 +1,54 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React from 'react';
 import './styles.css';
 import whatsappIcon from '../../assets/img/icons/whatsapp.svg';
+import api from '../../services/api';
 
+export interface Teacher {
+  id: number;
+  avatar: string;
+  bio: string;
+  cost: number;
+  name: string;
+  subject: string;
+  whatsapp: string;
+}
 
-function TeacherItem() {
+interface TeacherItemProps {
+  teacher: Teacher;
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ teacher }) => {
+  function createNewConnection() {
+    api.post('connections', {
+      user_id: teacher.id,
+    })
+  }
+
   return (
     <article className="teacher-item">
       <header>
         <img
-          src="https://avatars2.githubusercontent.com/u/42950800?s=460&u=9b418c156833b1427bcf6795ec3dbbda4911f7c7&v=4"
-          alt="Raphael Renato"
+          src={teacher.avatar}
+          alt={teacher.name}
         />
         <div>
-          <strong>Raphael Renato</strong>
-          <span>Química</span>
+          <strong>{teacher.name}</strong>
+          <span>{teacher.subject}</span>
         </div>
       </header>
-      <p>
-        Entusiasta das melhores tecnologias de química avançada.
-            <br /> <br />
-            Apaixonado por explodir coisas em laboratório e por mudar
-            a vida das pessoas através de experiências. Mais de 200.000
-            pessoas já passaram por uma das minhas explosões.
-          </p>
+
+      <p>{teacher.bio}</p>
 
       <footer>
         <p>
           Preço/hora
-              <strong> R$ 20,00</strong>
+              <strong> R$ {teacher.cost}</strong>
         </p>
-        <button type="button">
+        <a target="_blank" onClick={createNewConnection} href={`https://wa.me/${teacher.whatsapp}`} >
           <img src={whatsappIcon} alt="Whatsapp" />
               Entrar em contato
-            </button>
+        </a>
       </footer>
     </article>
   );
